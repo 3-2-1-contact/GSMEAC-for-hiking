@@ -1,0 +1,539 @@
+/* Form Styling */
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.form-label-inline {
+  display: inline-block;
+  margin-left: var(--spacing-xs);
+  font-weight: normal;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+/* Text Inputs */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(45, 122, 62, 0.1);
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Inline Inputs (for two-column layouts) */
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Checkboxes and Radio Buttons */
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  width: auto;
+  margin-right: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.form-check label {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Checkbox/Radio Groups */
+.form-check-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-check-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-right: var(--spacing-md);
+}
+
+.form-check-inline input[type="checkbox"],
+.form-check-inline input[type="radio"] {
+  width: auto;
+  margin-right: var(--spacing-xs);
+}
+
+/* Number Inputs */
+input[type="number"] {
+  width: auto;
+  min-width: 80px;
+}
+
+/* Small Inputs */
+.input-small {
+  width: auto;
+  max-width: 150px;
+}
+
+.input-medium {
+  width: auto;
+  max-width: 300px;
+}
+
+/* Read-only Fields */
+.form-readonly {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: var(--spacing-sm);
+  color: var(--text-secondary);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+/* Field with Suffix/Prefix */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.input-prefix,
+.input-suffix {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Validation States */
+.form-group.warning .form-label::after {
+  content: ' ⚠';
+  color: var(--warning);
+  font-size: 0.875rem;
+}
+
+.form-group.error input,
+.form-group.error textarea,
+.form-group.error select {
+  border-color: var(--error);
+}
+
+.form-error-message {
+  display: block;
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-tertiary);
+}
+
+.btn-small {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.875rem;
+}
+
+/* Fieldset Styling */
+fieldset {
+  border: 1px solid var(--border);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-fieldset {
+  border: 1px solid var(--border);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  background: var(--bg-secondary);
+}
+
+legend {
+  padding: 0 var(--spacing-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Checkbox and Radio Groups in Fieldsets */
+.form-checkbox-group,
+.form-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.form-checkbox,
+.form-radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  transition: background-color 0.2s;
+}
+
+.form-checkbox:hover,
+.form-radio:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.form-checkbox input[type="checkbox"],
+.form-radio input[type="radio"] {
+  width: auto;
+  margin-right: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.form-checkbox span,
+.form-radio span {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Map Links Styling */
+.map-link-item {
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.map-link-item .form-row {
+  margin-bottom: 0;
+  align-items: center;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  border: 1px solid #c82333;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 1.25rem;
+  line-height: 1;
+  min-width: 36px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-danger:active {
+  background: #bd2130;
+}
+
+/* Subsection Styling */
+.subsection {
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.subsection:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.subsection-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+/* Warning Banner */
+.warning-banner {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-left: 4px solid #ffc107;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border-radius: 4px;
+}
+
+.warning-banner strong {
+  display: block;
+  color: #856404;
+  margin-bottom: var(--spacing-xs);
+  font-size: 1rem;
+}
+
+.warning-banner p {
+  color: #856404;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Two-column layout for desktop */
+@media (min-width: 769px) {
+  .form-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+
+/* Daily Plan Table Styling */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: var(--spacing-sm);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.daily-plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-primary);
+}
+
+.daily-plan-table thead {
+  background: var(--bg-secondary);
+  border-bottom: 2px solid var(--border);
+}
+
+.daily-plan-table th {
+  padding: var(--spacing-sm);
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+
+.daily-plan-table td {
+  padding: var(--spacing-xs);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.daily-plan-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.daily-plan-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Day number column */
+.daily-plan-table .day-number {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  background: var(--bg-secondary);
+  width: 50px;
+}
+
+/* Inputs in table cells */
+.daily-plan-input {
+  width: 100%;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.daily-plan-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(45, 122, 62, 0.1);
+}
+
+.daily-plan-input.input-small {
+  max-width: 80px;
+}
+
+/* Collapsible Sections */
+.collapsible-section {
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-primary);
+}
+
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.collapsible-header:hover {
+  background: var(--bg-tertiary);
+}
+
+.collapsible-header h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.collapsible-toggle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.collapsible-section.collapsed .collapsible-toggle {
+  transform: rotate(-90deg);
+}
+
+.collapsible-content {
+  padding: var(--spacing-md);
+  display: block;
+}
+
+.collapsible-section.collapsed .collapsible-content {
+  display: none;
+}
+
+/* Gear Checklist */
+.gear-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.gear-checklist-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs);
+}
+
+.gear-checklist-item input[type="checkbox"] {
+  width: auto;
+  margin-right: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.gear-checklist-item label {
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+}
+
+.gear-checklist-item.custom {
+  background: rgba(45, 122, 62, 0.05);
+  border-left: 3px solid var(--accent);
+  padding-left: var(--spacing-sm);
+}
+
+.btn-add-gear {
+  margin-top: var(--spacing-sm);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-check-group {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="date"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Make table scrollable on mobile */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .daily-plan-table {
+    min-width: 800px; /* Force horizontal scroll on small screens */
+  }
+
+  .daily-plan-table th,
+  .daily-plan-table td {
+    font-size: 0.8125rem;
+    padding: var(--spacing-xs);
+  }
+
+  /* Smaller inputs on mobile */
+  .daily-plan-input {
+    font-size: 0.8125rem;
+    padding: 4px;
+  }
+}

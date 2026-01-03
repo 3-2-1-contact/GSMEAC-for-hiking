@@ -1,0 +1,192 @@
+/* Print Styles for GSMEAC Backpacking Planner */
+
+@media print {
+  /* Reset page margins */
+  @page {
+    margin: 1cm;
+    size: A4;
+  }
+
+  /* Hide UI elements */
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* Hide navigation and UI elements */
+  .progress-nav,
+  .section-nav,
+  .save-indicator,
+  .btn,
+  button,
+  .button-group,
+  .collapsible-toggle {
+    display: none !important;
+  }
+
+  /* Hide all sections except review */
+  .section:not(#section-review) {
+    display: none !important;
+  }
+
+  /* Show review section */
+  #section-review {
+    display: block !important;
+  }
+
+  /* Hide section header, info box, and navigation links in review section */
+  #section-review .section-header,
+  #section-review .info-box,
+  #section-review hr,
+  #section-review p:has(a[href^="#"]) {
+    display: none !important;
+  }
+
+  /* Section header styling (for other sections if needed) */
+  .section-header {
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.5cm;
+    margin-bottom: 0.5cm;
+    page-break-after: avoid;
+  }
+
+  .section-header h2 {
+    font-size: 18pt;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .section-header p {
+    font-size: 12pt;
+    margin: 0.25cm 0 0 0;
+    color: #333;
+  }
+
+  /* Summary display */
+  #review-summary {
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10pt;
+    line-height: 1.5;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: black;
+  }
+
+  /* Container */
+  .container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .section-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Avoid page breaks inside important elements */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure good page breaks */
+  .info-box,
+  .warning-banner {
+    page-break-inside: avoid;
+  }
+
+  /* Remove shadows and backgrounds */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Force white background for body, transparent for all other elements */
+  body {
+    background: white !important;
+  }
+
+  *:not(body) {
+    background: transparent !important;
+    color: black !important;
+  }
+
+  /* Ensure table headers remain visible */
+  th {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+  }
+
+  /* Links */
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+
+  /* Print URL after links */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+
+  /* Don't print empty links */
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  /* Optimize for black and white printing */
+  .info-box,
+  .warning-banner {
+    border: 1px solid #000;
+    background: transparent;
+    padding: 0.3cm;
+    margin: 0.3cm 0;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #000;
+    padding: 0.2cm;
+    text-align: left;
+  }
+
+  th {
+    background: #f0f0f0;
+    font-weight: bold;
+  }
+
+  /* Checkboxes for gear list */
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0.4cm;
+    height: 0.4cm;
+    border: 1px solid #000;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.2cm;
+  }
+
+  input[type="checkbox"]:checked:after {
+    content: "✓";
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+    line-height: 0.4cm;
+  }
+}

@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="GSMEAC Backpacking Planner - Plan your backpacking trips using the military GSMEAC framework" />
+  <title>GSMEAC Backpacking Planner</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/print.css" media="print" />
+</head>
+
+<body>
+  <!-- Auto-save Indicator -->
+  <div id="save-indicator" class="save-indicator"></div>
+
+  <!-- Progress Navigation (hidden on welcome screen) -->
+  <nav id="progress-nav" class="progress-nav hidden">
+    <div class="progress-steps">
+      <div class="progress-step" data-section="ground">
+        G<br /><small>Ground</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="situation">
+        S<br /><small>Situation</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="mission">
+        M<br /><small>Mission</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="execution">
+        E<br /><small>Execution</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="administration">
+        A<br /><small>Admin</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="commandcontrol">
+        C<br /><small>C&C</small>
+      </div>
+      <span class="progress-arrow">→</span>
+      <div class="progress-step" data-section="review">
+        <small>Review</small>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Welcome Section -->
+    <section id="section-welcome" class="section">
+      <div class="header">
+        <h1>GSMEAC Backpacking Planner</h1>
+        <p>Plan your backpacking trips with military precision</p>
+      </div>
+
+      <div class="info-box">
+        <p><strong>What is GSMEAC?</strong></p>
+        <p>
+          GSMEAC is a military planning framework that ensures comprehensive
+          preparation:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem">
+          <li>
+            <strong>G</strong> - Ground: Terrain and route characteristics
+          </li>
+          <li><strong>S</strong> - Situation/Season: Who's going and when</li>
+          <li><strong>M</strong> - Mission: Clear trip objectives</li>
+          <li><strong>E</strong> - Execution: Day-by-day itinerary</li>
+          <li>
+            <strong>A</strong> - Administration: Logistics, gear, food, costs
+          </li>
+          <li>
+            <strong>C</strong> - Command & Control: Emergency contacts and
+            communication
+          </li>
+        </ul>
+      </div>
+
+      <div class="section-content">
+        <h2 style="margin-bottom: 1rem">Start Your Trip Plan</h2>
+
+        <div class="form-group">
+          <label for="trip.tripName" class="form-label">Trip Name *</label>
+          <input type="text" id="trip.tripName" name="trip.tripName" placeholder="e.g., Routeburn Track" required />
+          <span class="form-hint">Give your trip a memorable name</span>
+        </div>
+
+        <div class="form-group">
+          <label for="trip.description" class="form-label">Description</label>
+          <textarea id="trip.description" name="trip.description" placeholder="Brief description of your trip..."
+            rows="3"></textarea>
+          <span class="form-hint">Optional: Add any initial notes or context</span>
+        </div>
+
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Trip Type *</legend>
+          <span class="form-hint">Are you planning a multi-day backpacking trip or a single-day
+            hike?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="trip.tripType" value="backpacking" checked />
+              <span>Backpacking Trip (multi-day with overnight stays)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="trip.tripType" value="dayhike" />
+              <span>Day Hike (single day, return same day)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="trip.startDate" class="form-label">Start Date</label>
+            <input type="date" id="trip.startDate" name="trip.startDate" />
+          </div>
+
+          <div class="form-group" id="end-date-container">
+            <label for="trip.endDate" class="form-label">End Date</label>
+            <input type="date" id="trip.endDate" name="trip.endDate" />
+          </div>
+        </div>
+
+        <div id="trip-duration" class="form-hint" style="display: none; margin-top: -0.5rem; margin-bottom: 1rem"></div>
+
+        <div class="button-group">
+          <button id="btn-continue" class="btn btn-primary">
+            Continue to Planning
+          </button>
+        </div>
+
+        <hr style="
+              margin: 2rem 0;
+              border: none;
+              border-top: 1px solid var(--border);
+            " />
+
+        <div style="text-align: center; color: var(--text-secondary)">
+          <p style="margin-bottom: 0.5rem">Or</p>
+          <div class="button-group" style="justify-content: center">
+            <button id="btn-load" class="btn btn-secondary" disabled>
+              Load Previous Trip
+            </button>
+            <button id="btn-import" class="btn btn-secondary" disabled>
+              Import from JSON
+            </button>
+          </div>
+          <p style="font-size: 0.875rem; margin-top: 0.5rem">Coming soon</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ground Section (Phase 3) -->
+    <section id="section-ground" class="section">
+      <div class="section-header">
+        <h2>G - GROUND</h2>
+        <p>Define terrain and route characteristics</p>
+      </div>
+      <div class="section-content">
+        <!-- Terrain Types -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Terrain Types *</legend>
+          <span class="form-hint">Select all that apply to your route</span>
+          <div class="form-checkbox-group">
+            <label class="form-checkbox">
+              <input type="checkbox" name="ground.terrainTypes" value="flat" />
+              <span>Flat / Valley</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="ground.terrainTypes" value="hills" />
+              <span>Hills</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="ground.terrainTypes" value="mountains" />
+              <span>Mountains</span>
+            </label>
+            <label class="form-checkbox">
+              <input type="checkbox" name="ground.terrainTypes" value="alpine" />
+              <span>Alpine</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Vegetation -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Vegetation</legend>
+          <span class="form-hint">Primary vegetation type along route</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="ground.vegetation" value="open" />
+              <span>Open (grassland, tussock, above treeline)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="ground.vegetation" value="bush" />
+              <span>Bush (forest, scrub)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="ground.vegetation" value="mixed" />
+              <span>Mixed</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Trail Type -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Trail Type</legend>
+          <span class="form-hint">Nature of the route</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="ground.trailType" value="established" />
+              <span>Established trail (well-marked, maintained)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="ground.trailType" value="partial" />
+              <span>Partial trail (some marked sections)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="ground.trailType" value="off-trail" />
+              <span>Off-trail (navigation required)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Route Coverage -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Route Coverage</legend>
+          <span class="form-hint">Are you doing part or all of a route?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="ground.routeCoverage" value="section" />
+              <span>Section hike</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="ground.routeCoverage" value="full" />
+              <span>Full route / thru-hike</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Elevation Notes -->
+        <div class="form-group">
+          <label for="ground.elevationNotes" class="form-label">Elevation & Terrain Notes</label>
+          <textarea id="ground.elevationNotes" name="ground.elevationNotes" rows="4"
+            placeholder="e.g., Starting elevation: 500m, high point: 1800m, total ascent: ~2000m, river crossings, exposed ridges..."></textarea>
+          <span class="form-hint">Include elevation gain/loss, hazards, water crossings,
+            exposure</span>
+        </div>
+
+        <!-- Map Links -->
+        <div class="form-group">
+          <label class="form-label">Map Links</label>
+          <span class="form-hint">Online maps, route info, or planning resources</span>
+
+          <div id="map-links-container">
+            <!-- Map links will be inserted here dynamically -->
+          </div>
+
+          <button type="button" id="btn-add-map-link" class="btn btn-secondary">
+            + Add Map Link
+          </button>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Next: Situation →
+        </button>
+      </div>
+    </section>
+
+    <!-- Situation/Season Section (Phase 4) -->
+    <section id="section-situation" class="section">
+      <div class="section-header">
+        <h2>S - SITUATION & SEASON</h2>
+        <p>Who's going and in what conditions?</p>
+      </div>
+      <div class="section-content">
+        <!-- Situation Subsection -->
+        <div class="subsection">
+          <h3 class="subsection-header">Situation</h3>
+
+          <!-- Travel Type -->
+          <fieldset class="form-fieldset">
+            <legend class="form-label">Travel Type *</legend>
+            <span class="form-hint">Are you traveling solo or with a group?</span>
+            <div class="form-radio-group">
+              <label class="form-radio">
+                <input type="radio" name="situation.travelType" value="solo" />
+                <span>Solo</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="situation.travelType" value="group" />
+                <span>Group</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Group Size (conditional - only shown if "Group" selected) -->
+          <div id="group-size-container" class="form-group" style="display: none">
+            <label for="situation.groupSize" class="form-label">Group Size *</label>
+            <input type="number" id="situation.groupSize" name="situation.groupSize" min="2" max="50"
+              placeholder="e.g., 4" class="input-small" />
+            <span class="form-hint">Number of people in your group</span>
+          </div>
+
+          <!-- Experience Level -->
+          <fieldset class="form-fieldset">
+            <legend class="form-label">Experience Level</legend>
+            <span class="form-hint">Overall backpacking experience of group/individual</span>
+            <div class="form-radio-group">
+              <label class="form-radio">
+                <input type="radio" name="situation.experienceLevel" value="beginner" />
+                <span>Beginner (limited overnight experience)</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="situation.experienceLevel" value="intermediate" />
+                <span>Intermediate (some multi-day trips)</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="situation.experienceLevel" value="advanced" />
+                <span>Advanced (extensive backcountry experience)</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Special Considerations -->
+          <div class="form-group">
+            <label for="situation.specialConsiderations" class="form-label">Special Considerations</label>
+            <textarea id="situation.specialConsiderations" name="situation.specialConsiderations" rows="4"
+              placeholder="e.g., Physical limitations, medical conditions, dietary requirements, first trip for some members..."></textarea>
+            <span class="form-hint">Any medical, fitness, or logistical factors to consider</span>
+          </div>
+        </div>
+
+        <!-- Season Subsection -->
+        <div class="subsection">
+          <h3 class="subsection-header">Season</h3>
+
+          <!-- Season Selection -->
+          <fieldset class="form-fieldset">
+            <legend class="form-label">Season *</legend>
+            <span class="form-hint">What season will you be traveling in?</span>
+            <div class="form-radio-group">
+              <label class="form-radio">
+                <input type="radio" name="season.season" value="Spring" />
+                <span>Spring (Mar-May)</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="season.season" value="Summer" />
+                <span>Summer (Jun-Aug)</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="season.season" value="Autumn" />
+                <span>Autumn (Sep-Nov)</span>
+              </label>
+              <label class="form-radio">
+                <input type="radio" name="season.season" value="Winter" />
+                <span>Winter (Dec-Feb)</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Winter Warning Banner (conditional) -->
+          <div id="winter-warning" class="warning-banner" style="display: none">
+            <strong>⚠ Winter Conditions</strong>
+            <p>
+              Winter backpacking requires additional preparation: cold weather
+              gear, shorter daylight hours, potential snow/ice, and emergency
+              shelter. Ensure your group has appropriate experience and
+              equipment.
+            </p>
+          </div>
+
+          <!-- Expected Weather -->
+          <div class="form-group">
+            <label for="season.expectedWeather" class="form-label">Expected Weather</label>
+            <textarea id="season.expectedWeather" name="season.expectedWeather" rows="3"
+              placeholder="e.g., Mild days (15-20°C), cool nights (5-10°C), low chance of rain..."></textarea>
+            <span class="form-hint">Typical conditions for this season and location</span>
+          </div>
+
+          <!-- Weather Risks -->
+          <div class="form-group">
+            <label for="season.weatherRisks" class="form-label">Weather Risks</label>
+            <textarea id="season.weatherRisks" name="season.weatherRisks" rows="3"
+              placeholder="e.g., Afternoon thunderstorms, flash flooding, sudden temperature drops, high winds on ridges..."></textarea>
+            <span class="form-hint">Potential weather hazards and how you'll mitigate them</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Next: Mission →
+        </button>
+      </div>
+    </section>
+
+    <!-- Mission Section (Phase 5) -->
+    <section id="section-mission" class="section">
+      <div class="section-header">
+        <h2>M - MISSION</h2>
+        <p>What is the purpose of this trip?</p>
+      </div>
+      <div class="section-content">
+        <!-- Auto-Generated Summary -->
+        <div class="info-box" style="background-color: var(--bg-secondary); margin-bottom: 2rem">
+          <h3 style="margin-bottom: 0.5rem">Trip Summary</h3>
+          <div id="mission-auto-summary" style="
+                white-space: pre-line;
+                color: var(--text-secondary);
+                font-size: 0.9375rem;
+              ">
+            Complete the Ground, Situation, and Season sections to see an
+            auto-generated summary here.
+          </div>
+        </div>
+
+        <!-- Mission Type -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Mission Type *</legend>
+          <span class="form-hint">What is the primary purpose of this trip?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="mission.missionType" value="recreation" />
+              <span>Recreation (leisure, enjoyment)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="mission.missionType" value="training" />
+              <span>Training (building skills, fitness)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="mission.missionType" value="challenge" />
+              <span>Challenge (personal achievement, completing a difficult
+                route)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="mission.missionType" value="exploration" />
+              <span>Exploration (discovering new areas)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Mission Statement -->
+        <div class="form-group">
+          <label for="mission.statement" class="form-label">Mission Statement *</label>
+          <textarea id="mission.statement" name="mission.statement" rows="4"
+            placeholder="e.g., To complete the Routeburn Track as a group, enjoying the stunning scenery while building group cohesion and backcountry skills."></textarea>
+          <span class="form-hint">A clear statement of what you intend to achieve on this
+            trip</span>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Next: Execution →
+        </button>
+      </div>
+    </section>
+
+    <!-- Execution Section (Phase 6) -->
+    <section id="section-execution" class="section">
+      <div class="section-header">
+        <h2>E - EXECUTION</h2>
+        <p>Day-by-day travel plan</p>
+      </div>
+      <div class="section-content">
+        <!-- Travel Style -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Travel Style</legend>
+          <span class="form-hint">What's your preferred hiking pace?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="execution.travelStyle" value="relaxed" />
+              <span>Relaxed (short days, plenty of breaks)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.travelStyle" value="moderate" />
+              <span>Moderate (steady pace, regular breaks)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.travelStyle" value="ambitious" />
+              <span>Ambitious (long days, fewer breaks)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Direction -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Direction</legend>
+          <span class="form-hint">Which direction are you traveling?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="execution.direction" value="northbound" />
+              <span>Northbound</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.direction" value="southbound" />
+              <span>Southbound</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.direction" value="eastbound" />
+              <span>Eastbound</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.direction" value="westbound" />
+              <span>Westbound</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="execution.direction" value="loop" />
+              <span>Loop / Circuit</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Daily Plan Table -->
+        <div class="form-group">
+          <label class="form-label">Daily Itinerary</label>
+          <span class="form-hint">Plan out each day's hiking and camping locations</span>
+
+          <div class="table-container">
+            <table id="daily-plan-table" class="daily-plan-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Date</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Distance (miles)</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="daily-plan-tbody">
+                <!-- Rows will be inserted here dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="button-group" style="margin-top: 1rem">
+            <button type="button" id="btn-add-day" class="btn btn-secondary">
+              + Add Day
+            </button>
+            <button type="button" id="btn-remove-day" class="btn btn-danger">
+              − Remove Last Day
+            </button>
+          </div>
+
+          <div id="total-distance-display" class="info-box"
+            style="margin-top: 1rem; background-color: var(--bg-secondary)">
+            <strong>Total Distance:</strong>
+            <span id="total-distance-value">0</span> miles
+          </div>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Next: Administration →
+        </button>
+      </div>
+    </section>
+
+    <!-- Administration Section (Phase 7-8) -->
+    <section id="section-administration" class="section">
+      <div class="section-header">
+        <h2>A - ADMINISTRATION</h2>
+        <p>Logistics and preparation</p>
+      </div>
+      <div class="section-content">
+        <!-- Travel Subsection -->
+        <div class="collapsible-section" data-section="travel">
+          <div class="collapsible-header">
+            <h4>Travel & Transport</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label for="administration.travel.transportToStart" class="form-label">Transport to Start</label>
+              <input type="text" id="administration.travel.transportToStart"
+                name="administration.travel.transportToStart"
+                placeholder="e.g., Drive from Auckland, shuttle service, flight to..." />
+              <span class="form-hint">How are you getting to the trailhead?</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.travel.transportFromEnd" class="form-label">Transport from End</label>
+              <input type="text" id="administration.travel.transportFromEnd"
+                name="administration.travel.transportFromEnd"
+                placeholder="e.g., Shuttle pickup, drive back, arrange pickup..." />
+              <span class="form-hint">How are you getting home from the trail end?</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.travel.specialLogistics" class="form-label">Special Logistics</label>
+              <textarea id="administration.travel.specialLogistics" name="administration.travel.specialLogistics"
+                rows="3"
+                placeholder="e.g., Car shuttle arrangements, key handoff, parking permits, booking confirmations..."></textarea>
+              <span class="form-hint">Any special transport arrangements or considerations</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accommodation Subsection -->
+        <div class="collapsible-section" data-section="accommodation">
+          <div class="collapsible-header">
+            <h4>Accommodation</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <fieldset class="form-fieldset">
+              <legend class="form-label">Accommodation Type</legend>
+              <span class="form-hint">Where will you stay?</span>
+              <div class="form-radio-group">
+                <label class="form-radio">
+                  <input type="radio" name="administration.accommodation.type" value="camping" />
+                  <span>Camping (tent/tarp)</span>
+                </label>
+                <label class="form-radio">
+                  <input type="radio" name="administration.accommodation.type" value="huts" />
+                  <span>Huts</span>
+                </label>
+                <label class="form-radio">
+                  <input type="radio" name="administration.accommodation.type" value="mixed" />
+                  <span>Mixed (camping + huts)</span>
+                </label>
+                <label class="form-radio">
+                  <input type="radio" name="administration.accommodation.type" value="lodges" />
+                  <span>Lodges / Hotels</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="administration.accommodation.nightsRequired" class="form-label">Nights Required</label>
+              <input type="number" id="administration.accommodation.nightsRequired"
+                name="administration.accommodation.nightsRequired" min="0" max="365" placeholder="0"
+                class="input-small" />
+              <span class="form-hint">Number of nights needing accommodation</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.accommodation.bookingStatus" class="form-label">Booking Status</label>
+              <input type="text" id="administration.accommodation.bookingStatus"
+                name="administration.accommodation.bookingStatus"
+                placeholder="e.g., Huts booked for Dec 20-23, confirmation #12345" />
+              <span class="form-hint">Booking confirmations and status</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gear Subsection -->
+        <div class="collapsible-section" data-section="gear">
+          <div class="collapsible-header">
+            <h4>Gear & Equipment</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label class="form-label">Gear Checklist</label>
+              <span class="form-hint">Essential items for your trip. Checklist adapts based on
+                season.</span>
+
+              <div id="gear-checklist-container" class="gear-checklist">
+                <!-- Gear items will be inserted here dynamically -->
+              </div>
+
+              <button type="button" id="btn-add-custom-gear" class="btn btn-secondary btn-add-gear">
+                + Add Custom Item
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.gear.notes" class="form-label">Additional Gear Notes</label>
+              <textarea id="administration.gear.notes" name="administration.gear.notes" rows="4"
+                placeholder="e.g., Need to buy new stove, borrow friend's tent, repair pack strap..."></textarea>
+              <span class="form-hint">Notes about gear preparation, repairs, or borrowing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food/Water/Fuel Subsection -->
+        <div class="collapsible-section" data-section="foodfuel">
+          <div class="collapsible-header">
+            <h4>Food, Water & Fuel</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="administration.foodFuel.daysOfFood" class="form-label">Days of Food</label>
+                <input type="number" id="administration.foodFuel.daysOfFood" name="administration.foodFuel.daysOfFood"
+                  min="0" max="365" placeholder="0" class="input-small" />
+                <span class="form-hint">Days of food to carry</span>
+              </div>
+
+              <div class="form-group">
+                <label for="administration.foodFuel.emergencyDays" class="form-label">Emergency Days</label>
+                <input type="number" id="administration.foodFuel.emergencyDays"
+                  name="administration.foodFuel.emergencyDays" min="0" max="14" placeholder="0" class="input-small" />
+                <span class="form-hint">Extra emergency food</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.foodFuel.caloriesPerDay" class="form-label">Calories per Day</label>
+              <input type="number" id="administration.foodFuel.caloriesPerDay"
+                name="administration.foodFuel.caloriesPerDay" min="0" max="10000" step="100" placeholder="e.g., 3000"
+                class="input-medium" />
+              <span class="form-hint">Target daily caloric intake (typical: 2500-4000
+                cal/day)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.foodFuel.waterPerPerson" class="form-label">Water Carried per Person
+                (Liters)</label>
+              <input type="number" id="administration.foodFuel.waterPerPerson"
+                name="administration.foodFuel.waterPerPerson" min="0" max="20" step="0.5" placeholder="e.g., 2.0"
+                class="input-small" />
+              <span class="form-hint">Amount of water (in liters) each person will be
+                carrying</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.foodFuel.waterSources" class="form-label">Water Sources Along Route</label>
+              <textarea id="administration.foodFuel.waterSources" name="administration.foodFuel.waterSources" rows="3"
+                placeholder="e.g., Stream at km 5, lake at hut, river crossings..."></textarea>
+              <span class="form-hint">Describe water sources available along the route</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="administration.foodFuel.filtrationRequired"
+                  name="administration.foodFuel.filtrationRequired" />
+                <span>Water sources require filtration/purification</span>
+              </label>
+              <span class="form-hint">Check if water sources need treatment before drinking</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.foodFuel.fuelNotes" class="form-label">Food, Water & Fuel Notes</label>
+              <textarea id="administration.foodFuel.fuelNotes" name="administration.foodFuel.fuelNotes" rows="4"
+                placeholder="e.g., 500ml fuel for 5 days, gas canister available at huts, meal plan: oatmeal breakfast, trail mix lunch, freeze-dried dinner, water filter for streams..."></textarea>
+              <span class="form-hint">Fuel requirements, meal plan, dietary needs, water treatment
+                methods, resupply points</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permits Subsection -->
+        <div class="collapsible-section" data-section="permits">
+          <div class="collapsible-header">
+            <h4>Permits & Regulations</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="administration.permits.required" name="administration.permits.required" />
+                <span>Permits required for this trip</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.permits.bookingDeadlines" class="form-label">Booking Deadlines</label>
+              <input type="text" id="administration.permits.bookingDeadlines"
+                name="administration.permits.bookingDeadlines"
+                placeholder="e.g., Book by Dec 1, must apply 2 weeks in advance..." />
+              <span class="form-hint">Important dates for permit applications or bookings</span>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.permits.notes" class="form-label">Permit Notes</label>
+              <textarea id="administration.permits.notes" name="administration.permits.notes" rows="3"
+                placeholder="e.g., DoC hut pass required, camping permit #12345, trail quota system..."></textarea>
+              <span class="form-hint">Details about permits, passes, regulations</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Subsection -->
+        <div class="collapsible-section" data-section="navigation">
+          <div class="collapsible-header">
+            <h4>Navigation</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="administration.navigation.mapAndCompass"
+                  name="administration.navigation.mapAndCompass" />
+                <span>Map & compass (analog navigation)</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.navigation.digitalTools" class="form-label">Digital Navigation Tools</label>
+              <input type="text" id="administration.navigation.digitalTools"
+                name="administration.navigation.digitalTools"
+                placeholder="e.g., GPS device, Gaia GPS app, InReach, downloaded offline maps..." />
+              <span class="form-hint">GPS devices, apps, or other digital navigation aids</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- First Aid Subsection -->
+        <div class="collapsible-section" data-section="firstaid">
+          <div class="collapsible-header">
+            <h4>First Aid & Emergency</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label for="administration.firstAid.kitType" class="form-label">First Aid Kit Type</label>
+              <input type="text" id="administration.firstAid.kitType" name="administration.firstAid.kitType"
+                placeholder="e.g., Comprehensive wilderness kit, basic kit + extras..." />
+              <span class="form-hint">Description of first aid kit carried</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="administration.firstAid.plbCarried"
+                  name="administration.firstAid.plbCarried" />
+                <span>Personal Locator Beacon (PLB) or satellite communicator
+                  carried</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Costing Subsection -->
+        <div class="collapsible-section" data-section="costing">
+          <div class="collapsible-header">
+            <h4>Costing</h4>
+            <span class="collapsible-toggle">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="administration.costing.travel" class="form-label">Travel Cost</label>
+                <input type="number" id="administration.costing.travel" name="administration.costing.travel" min="0"
+                  step="0.01" placeholder="0.00" class="input-medium" />
+                <span class="form-hint">Transport to/from trailhead</span>
+              </div>
+
+              <div class="form-group">
+                <label for="administration.costing.accommodation" class="form-label">Accommodation Cost</label>
+                <input type="number" id="administration.costing.accommodation"
+                  name="administration.costing.accommodation" min="0" step="0.01" placeholder="0.00"
+                  class="input-medium" />
+                <span class="form-hint">Huts, camping fees, lodges</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="administration.costing.food" class="form-label">Food Cost</label>
+                <input type="number" id="administration.costing.food" name="administration.costing.food" min="0"
+                  step="0.01" placeholder="0.00" class="input-medium" />
+                <span class="form-hint">Food and fuel supplies</span>
+              </div>
+
+              <div class="form-group">
+                <label for="administration.costing.permits" class="form-label">Permits Cost</label>
+                <input type="number" id="administration.costing.permits" name="administration.costing.permits" min="0"
+                  step="0.01" placeholder="0.00" class="input-medium" />
+                <span class="form-hint">Permits, passes, fees</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="administration.costing.other" class="form-label">Other Costs</label>
+              <input type="number" id="administration.costing.other" name="administration.costing.other" min="0"
+                step="0.01" placeholder="0.00" class="input-medium" />
+              <span class="form-hint">Gear rental, insurance, misc</span>
+            </div>
+
+            <hr style="
+                  margin: 1.5rem 0;
+                  border: none;
+                  border-top: 2px solid var(--border);
+                " />
+
+            <div class="info-box" style="background-color: var(--bg-secondary)">
+              <strong style="font-size: 1.125rem">Total Trip Cost:</strong>
+              <span id="total-cost-value" style="
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin-left: 1rem;
+                  ">$0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Next: Command & Control →
+        </button>
+      </div>
+    </section>
+
+    <!-- Command & Control Section (Phase 9) -->
+    <section id="section-commandcontrol" class="section">
+      <div class="section-header">
+        <h2>C - COMMAND & CONTROL</h2>
+        <p>Emergency contacts and communication plan</p>
+      </div>
+      <div class="section-content">
+        <!-- Safety Warning for Solo + No Device (conditional) -->
+        <div id="solo-no-device-warning" class="warning-banner" style="display: none">
+          <strong>⚠ Safety Notice</strong>
+          <p>
+            You've indicated you're traveling solo without an emergency
+            communication device. Consider carrying a PLB, satellite
+            messenger, or similar device for emergency situations.
+          </p>
+        </div>
+
+        <!-- Home Contact Information -->
+        <div class="form-group">
+          <label for="commandControl.homeContactName" class="form-label">Home Contact Name *</label>
+          <input type="text" id="commandControl.homeContactName" name="commandControl.homeContactName"
+            placeholder="e.g., Jane Smith" required />
+          <span class="form-hint">Person who will raise the alarm if you don't check in</span>
+        </div>
+
+        <div class="form-group">
+          <label for="commandControl.contactMethod" class="form-label">Contact Method *</label>
+          <input type="text" id="commandControl.contactMethod" name="commandControl.contactMethod"
+            placeholder="e.g., Mobile: +64 21 123 4567, Email: jane@example.com" required />
+          <span class="form-hint">How to reach your home contact</span>
+        </div>
+
+        <div class="form-group">
+          <label for="commandControl.expectedCheckIn" class="form-label">Expected Check-in Date *</label>
+          <input type="date" id="commandControl.expectedCheckIn" name="commandControl.expectedCheckIn" required />
+          <span class="form-hint">When should your contact expect to hear from you? (Auto-set to
+            trip end date + 1 day)</span>
+        </div>
+
+        <!-- Emergency Instructions -->
+        <div class="form-group">
+          <label for="commandControl.emergencyInstructions" class="form-label">Emergency Instructions</label>
+          <textarea id="commandControl.emergencyInstructions" name="commandControl.emergencyInstructions" rows="5"
+            placeholder="e.g., If I don't check in by 6pm on [date], call local search and rescue at [number]. My planned route is [route details]. I have [color] tent/pack. Vehicle parked at [location], registration [number]."></textarea>
+          <span class="form-hint">What should your contact do if you don't check in? Include search
+            and rescue numbers, route details, vehicle info, etc.</span>
+        </div>
+
+        <!-- Communication Device -->
+        <fieldset class="form-fieldset">
+          <legend class="form-label">Emergency Communication Device</legend>
+          <span class="form-hint">What device are you carrying for emergencies?</span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <input type="radio" name="commandControl.deviceCarried" value="none" />
+              <span>None (relying on mobile phone only)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="commandControl.deviceCarried" value="plb" />
+              <span>PLB (Personal Locator Beacon)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="commandControl.deviceCarried" value="satellite" />
+              <span>Satellite Messenger (InReach, SPOT, etc.)</span>
+            </label>
+            <label class="form-radio">
+              <input type="radio" name="commandControl.deviceCarried" value="satellite-phone" />
+              <span>Satellite Phone</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Group Briefing Checkbox -->
+        <div class="form-group">
+          <label class="form-checkbox">
+            <input type="checkbox" id="commandControl.groupBriefed" name="commandControl.groupBriefed" />
+            <span>Group has been briefed on emergency procedures</span>
+          </label>
+          <span class="form-hint">If traveling with others, ensure everyone knows the emergency
+            plan</span>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button class="btn" data-nav="back">← Back</button>
+        <button class="btn btn-primary" data-nav="next">
+          Review & Export →
+        </button>
+      </div>
+    </section>
+
+    <!-- Review & Export Section (Phase 11) -->
+    <section id="section-review" class="section">
+      <div class="section-header">
+        <h2>REVIEW & EXPORT</h2>
+        <p>Your complete GSMEAC plan</p>
+      </div>
+      <div class="section-content">
+        <div class="info-box" style="margin-bottom: 2rem">
+          <p><strong>Review your plan below.</strong></p>
+          <p>
+            You can print this plan, download it as JSON for backup, or start
+            a new trip.
+          </p>
+        </div>
+
+        <!-- Summary Display -->
+        <div id="review-summary-container" style="
+              background: var(--bg-secondary);
+              padding: var(--spacing-lg);
+              border: 1px solid var(--border);
+              border-radius: 4px;
+              margin-bottom: 2rem;
+            ">
+          <pre id="review-summary" style="
+                margin: 0;
+                white-space: pre-wrap;
+                font-family: &quot;Courier New&quot;, Courier, monospace;
+                font-size: 0.875rem;
+                line-height: 1.5;
+                overflow-x: auto;
+              ">
+            Loading plan summary...</pre>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group" style="margin-bottom: 2rem; gap: 1rem">
+          <button id="btn-print-plan" class="btn btn-primary" title="Print or save as PDF">
+            🖨 Print Plan
+          </button>
+          <button id="btn-download-json" class="btn" title="Download plan as JSON file for backup">
+            💾 Download JSON
+          </button>
+          <button id="btn-start-new-trip" class="btn" title="Reset and start a new trip plan" style="margin-left: auto">
+            🆕 Start New Trip
+          </button>
+        </div>
+
+        <hr style="
+              margin: 2rem 0;
+              border: none;
+              border-top: 1px solid var(--border);
+            " />
+
+        <p style="text-align: center; color: var(--text-secondary)">
+          <a href="#commandcontrol" style="color: var(--accent); text-decoration: none">← Back to Edit</a>
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/state.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/calculations.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
